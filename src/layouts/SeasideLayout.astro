@@ -1,0 +1,52 @@
+---
+import BaseLayout from './BaseLayout.astro';
+const { title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="seaside">
+    <div class="seaside__waves" aria-hidden="true"></div>
+    <div class="seaside__inner">
+      <h1 class="display-2 seaside__title">{title}</h1>
+      <div class="seaside__body">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .seaside {
+    --seaside-bg: #eaf2f6;
+    --seaside-ink: #1f3a44;
+    --seaside-accent: #7fb3c6;
+    position: relative;
+    min-height: 100vh;
+    background: var(--seaside-bg);
+    color: var(--seaside-ink);
+    padding: calc(var(--nav-height) + 6rem) 1.5rem 6rem;
+    overflow: hidden;
+  }
+  .seaside__waves {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(127,179,198,0.18) 0, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(127,179,198,0.14) 0, transparent 45%);
+    pointer-events: none;
+  }
+  .seaside__inner {
+    position: relative;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .seaside__title {
+    margin-bottom: 2rem;
+    color: var(--seaside-accent);
+    font-style: italic;
+  }
+  .seaside__body {
+    font-family: var(--font-serif);
+    line-height: 2;
+  }
+</style>

@@ -1,0 +1,153 @@
+---
+import '../styles/tokens.css';
+
+const { title = 'KRSRAVEN', description = "KrsRaven's personal site for original stories and characters." } = Astro.props;
+
+const navItems = [
+  { href: '/story', label: 'STORY' },
+  { href: '/project', label: 'PROJECT' },
+  { href: '/blog', label: 'BLOG' },
+];
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@300;400;500;700&family=Jost:wght@300;400;500;600&display=swap"
+    />
+    <title>{title}</title>
+  </head>
+  <body>
+    <nav class="site-nav">
+      <div class="site-nav__inner">
+        <a href="/" class="site-nav__brand display-1">KRSRAVEN</a>
+        <ul class="site-nav__list">
+          {navItems.map((item) => (
+            <li><a href={item.href} class="site-nav__link">{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__frame">
+        <p class="site-footer__copyright">© 2023 KRSRAVEN — All Rights Reserved</p>
+        <p class="site-footer__thanks">Thank you .</p>
+      </div>
+    </footer>
+
+    <style is:global>
+      .site-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: var(--color-black-90);
+        padding: 1rem 0;
+        backdrop-filter: blur(4px);
+      }
+      .site-nav__inner {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+      }
+      .site-nav__brand {
+        color: #ffffff;
+        font-size: 1.5rem;
+        font-family: var(--font-display);
+        letter-spacing: 0.08em;
+      }
+      .site-nav__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 2rem;
+      }
+      .site-nav__link {
+        position: relative;
+        color: #ffffff;
+        font-family: var(--font-body);
+        font-size: 1.1rem;
+        letter-spacing: 0.1em;
+        padding-bottom: 4px;
+      }
+      .site-nav__link::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 5px;
+        background: var(--color-line);
+        transition: width 0.3s ease-out;
+      }
+      .site-nav__link:hover::before,
+      .site-nav__link:focus::before {
+        width: 100%;
+      }
+
+      main {
+        min-height: 100vh;
+      }
+
+      .site-footer {
+        background: var(--color-black);
+        padding: var(--frame-border);
+      }
+      .site-footer__frame {
+        background: var(--color-black);
+        border-radius: var(--radius-frame);
+        padding: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+      .site-footer__copyright {
+        color: var(--color-muted);
+        opacity: 0.7;
+        font-family: var(--font-body);
+        font-size: var(--fs-small);
+        margin: 0;
+      }
+      .site-footer__thanks {
+        color: #ffffff;
+        opacity: 0.5;
+        font-family: var(--font-serif);
+        font-size: var(--fs-small);
+        margin: 0;
+      }
+
+      @media (max-width: 720px) {
+        .site-nav__inner { padding: 0 1rem; }
+        .site-nav__list { gap: 1rem; }
+        .site-nav__link { font-size: 0.95rem; }
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+---
+import BaseLayout from './BaseLayout.astro';
+const { title, date, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="blog">
+    <header class="blog__header">
+      <h1 class="display-2 blog__title">{title}</h1>
+      {date && <time class="display-7 blog__date">{date}</time>}
+    </header>
+    <div class="blog__body">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .blog {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: calc(var(--nav-height) + 4rem) 1.5rem 6rem;
+  }
+  .blog__header {
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .blog__title {
+    margin-bottom: 0.5rem;
+  }
+  .blog__date {
+    color: var(--color-muted);
+  }
+  .blog__body {
+    font-family: var(--font-serif);
+    line-height: 1.9;
+  }
+  .blog__body :global(p) {
+    margin: 0 0 1.2em;
+  }
+</style>

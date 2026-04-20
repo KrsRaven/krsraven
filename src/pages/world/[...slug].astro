@@ -1,0 +1,30 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import WastelandLayout from '../../layouts/WastelandLayout.astro';
+import SeasideLayout from '../../layouts/SeasideLayout.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('world', ({ data }) => !data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const layoutMap = {
+  base: BaseLayout,
+  blog: BlogLayout,
+  wasteland: WastelandLayout,
+  seaside: SeasideLayout,
+};
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const Layout = layoutMap[entry.data.layout] ?? BaseLayout;
+---
+
+<Layout title={entry.data.title} description={entry.data.description}>
+  <Content />
+</Layout>

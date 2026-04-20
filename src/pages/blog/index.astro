@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="Blog — KRSRAVEN">
+  <section class="blog-index">
+    <h1 class="display-2">Blog</h1>
+    <ul class="blog-index__list">
+      {posts.map((post) => (
+        <li class="blog-index__item">
+          <a href={`/blog/${post.id}`}>
+            <time class="blog-index__date">
+              {post.data.date.toISOString().slice(0, 10)}
+            </time>
+            <h2 class="blog-index__title">{post.data.title}</h2>
+            {post.data.description && (
+              <p class="blog-index__desc">{post.data.description}</p>
+            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .blog-index {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: calc(var(--nav-height) + 4rem) 1.5rem 6rem;
+  }
+  .blog-index__list {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+  }
+  .blog-index__item {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .blog-index__item a {
+    display: block;
+  }
+  .blog-index__item a:hover .blog-index__title {
+    text-decoration: underline;
+  }
+  .blog-index__date {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    letter-spacing: 0.1em;
+  }
+  .blog-index__title {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    margin: 0.25rem 0 0.5rem;
+  }
+  .blog-index__desc {
+    font-family: var(--font-serif);
+    color: #555;
+    margin: 0;
+  }
+</style>
